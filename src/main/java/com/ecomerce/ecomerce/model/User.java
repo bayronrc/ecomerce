@@ -30,7 +30,7 @@ public class User implements UserDetails {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
                 .toList();
     }
 
@@ -56,7 +56,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-    return true;
+        return true;
     }
 
 }
