@@ -1,0 +1,17 @@
+services:
+  ecomerce:
+    image: mysql:8.0
+    container_name: ecomerce
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=ryshen1942
+      - MYSQL_DATABASE=ecomerce_db
+      - MYSQL_USER=ryshen
+      - MYSQL_PASSWORD=ryshen1942
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
+    driver: local
