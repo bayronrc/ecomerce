@@ -11,7 +11,10 @@ class Option extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'type'
+    ];
 
     public function products(): BelongsToMany
     {

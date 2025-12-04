@@ -11,7 +11,11 @@ class Feature extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'value',
+        'description',
+        'option_id'
+    ];
 
     public function option(): BelongsTo
     {

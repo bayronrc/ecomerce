@@ -11,7 +11,10 @@ class Subcategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = [];
+    protected $fillable = [
+        'namespace',
+        'category_id',
+    ];
 
     public function category(): BelongsTo
     {
