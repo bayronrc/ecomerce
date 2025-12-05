@@ -1,5 +1,9 @@
-import { AppSidebar } from "@/Components/app-sidebar"
-import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/Components/ui/sidebar"
+import { AppSidebar } from "@/Components/app-sidebar";
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from "@/Components/ui/sidebar";
 
 import {
     Breadcrumb,
@@ -7,13 +11,23 @@ import {
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
-    BreadcrumbSeparator
+    BreadcrumbSeparator,
 } from "@/Components/ui/breadcrumb";
-import {Separator} from "@radix-ui/react-select";
+import { Head } from "@inertiajs/react";
+
+const links = [
+    {
+        icon: "",
+        name: "Dashboard",
+        route: route("admin.dashboard"),
+        active: route().current("admin.dashboard"),
+    },
+];
 
 export default function Page() {
     return (
         <SidebarProvider>
+            <Head title={"Admin Dashboard"} />
             <AppSidebar />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2">
@@ -28,7 +42,9 @@ export default function Page() {
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                                    <BreadcrumbPage>
+                                        Data Fetching
+                                    </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
@@ -44,5 +60,5 @@ export default function Page() {
                 </div>
             </SidebarInset>
         </SidebarProvider>
-    )
+    );
 }

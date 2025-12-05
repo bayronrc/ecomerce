@@ -1,37 +1,46 @@
-import { MailIcon, PlusCircleIcon, type LucideIcon } from "lucide-react"
-
-import { Button } from "@/Components/ui/button"
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/Components/ui/sidebar"
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from "@/Components/ui/sidebar";
+import { Link } from "@inertiajs/react";
+import { type LucideIcon } from "lucide-react";
 
 export function NavMain({
-  items,
+    items,
 }: {
-  items: {
-    title: string
-    url: string
-    icon?: LucideIcon
-  }[]
+    items: {
+        name: string;
+        url: string;
+        icon?: LucideIcon;
+        active: boolean;
+    }[];
 }) {
-  return (
-    <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-  )
+    return (
+        <SidebarGroup>
+            <SidebarGroupContent className="flex flex-col gap-2">
+                <SidebarMenu>
+                    {items.map((item) => (
+                        <Link href={item.url}>
+                            <SidebarMenuItem
+                                key={item.name}
+                                className={
+                                    item.active
+                                        ? "bg-primary/10 text-primary font-semibold border-1-4 border-primary"
+                                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                }
+                            >
+                                <SidebarMenuButton tooltip={item.name}>
+                                    {item.icon && <item.icon />}
+                                    <span>{item.name}</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        </Link>
+                    ))}
+                </SidebarMenu>
+            </SidebarGroupContent>
+        </SidebarGroup>
+    );
 }
