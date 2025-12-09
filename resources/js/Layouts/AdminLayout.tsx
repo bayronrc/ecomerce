@@ -1,31 +1,33 @@
-import { AppSidebar } from "@/Components/app-sidebar";
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/Components/ui/sidebar";
-
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/Components/ui/breadcrumb";
 import { Head } from "@inertiajs/react";
 import { PropsWithChildren } from "react";
+import { AppSidebar } from "../Components/app-sidebar";
+import {
+    Breadcrumb,
+    BreadcrumbList,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbSeparator,
+    BreadcrumbPage,
+} from "../Components/ui/breadcrumb";
+import {
+    SidebarProvider,
+    SidebarInset,
+    SidebarTrigger,
+} from "../Components/ui/sidebar";
 
 export default function Authenticated({ children }: PropsWithChildren) {
     return (
         <SidebarProvider>
-            <Head title={"Admin Dashboard"} />
+            <Head title="Admin Dashboard" />
             <AppSidebar />
+
             <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2">
-                    <div className="flex items-center gap-2 px-4">
+                {/* Header que flota encima del contenido */}
+                <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                    <div className="flex items-center gap-2 px-4 w-full">
                         <SidebarTrigger className="-ml-1" />
-                        <Breadcrumb>
+
+                        <Breadcrumb className="flex-1">
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
                                     <BreadcrumbLink href="#">
@@ -42,9 +44,9 @@ export default function Authenticated({ children }: PropsWithChildren) {
                         </Breadcrumb>
                     </div>
                 </header>
-                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                    {children}
-                </div>
+
+                {/* Contenido principal – empieza justo debajo, sin padding top */}
+                <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
             </SidebarInset>
         </SidebarProvider>
     );
