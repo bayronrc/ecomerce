@@ -17,12 +17,14 @@ import { usePage } from "@inertiajs/react";
 
 const data = [
     {
+        key: 1,
         name: "Dashboard",
         url: route("admin.dashboard"),
         icon: PieChart,
         active: route().current("admin.dashboard"),
     },
     {
+        key: 2,
         name: "Perfil",
         url: route("profile.edit"),
         icon: User2,

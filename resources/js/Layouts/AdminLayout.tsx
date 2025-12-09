@@ -3,15 +3,15 @@ import { PropsWithChildren } from "react";
 import { AppSidebar } from "../Components/app-sidebar";
 import {
     Breadcrumb,
-    BreadcrumbList,
     BreadcrumbItem,
     BreadcrumbLink,
-    BreadcrumbSeparator,
+    BreadcrumbList,
     BreadcrumbPage,
+    BreadcrumbSeparator,
 } from "../Components/ui/breadcrumb";
 import {
-    SidebarProvider,
     SidebarInset,
+    SidebarProvider,
     SidebarTrigger,
 } from "../Components/ui/sidebar";
 
@@ -22,7 +22,6 @@ export default function Authenticated({ children }: PropsWithChildren) {
             <AppSidebar />
 
             <SidebarInset>
-                {/* Header que flota encima del contenido */}
                 <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center gap-2 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                     <div className="flex items-center gap-2 px-4 w-full">
                         <SidebarTrigger className="-ml-1" />
@@ -44,8 +43,6 @@ export default function Authenticated({ children }: PropsWithChildren) {
                         </Breadcrumb>
                     </div>
                 </header>
-
-                {/* Contenido principal – empieza justo debajo, sin padding top */}
                 <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
             </SidebarInset>
         </SidebarProvider>
