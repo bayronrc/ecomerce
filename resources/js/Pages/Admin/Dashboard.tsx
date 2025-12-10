@@ -15,8 +15,13 @@ const getInitials = (name: string): string => {
 export default function Dashboard() {
     const user: User = usePage().props.auth.user;
     const initials = getInitials(user.name);
+
+    const breadcrumbs = [
+        { label: "Dashboard", href: route("admin.dashboard") },
+    ];
+
     return (
-        <Authenticated>
+        <Authenticated breadcrumbs={breadcrumbs}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white rounded-lg shadow-lg p-4 w-full">
                     <div className="flex items-center">

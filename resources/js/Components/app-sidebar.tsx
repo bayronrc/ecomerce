@@ -1,4 +1,4 @@
-import { ArrowUpCircleIcon, PieChart, User2 } from "lucide-react";
+import { ArrowUpCircleIcon, PieChart, Users } from "lucide-react";
 import * as React from "react";
 
 import { NavMain } from "@/Components/nav-main";
@@ -25,10 +25,10 @@ const data = [
     },
     {
         key: 2,
-        name: "Perfil",
-        url: route("profile.edit"),
-        icon: User2,
-        active: route().current("profile.edit"),
+        name: "Familias",
+        url: route("admin.families.index"),
+        icon: Users,
+        active: route().current("admin.families.*"),
     },
 ];
 
