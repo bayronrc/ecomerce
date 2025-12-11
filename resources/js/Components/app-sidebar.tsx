@@ -28,7 +28,7 @@ const data = [
         name: "Familias",
         url: route("admin.families.index"),
         icon: Users,
-        active: route().current("admin.families.*"),
+        active: route().current("admin.families.index"),
     },
 ];
 

@@ -1,7 +1,8 @@
 import { usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { createBreadcrumbs } from "../../helpers/breadcrumbs";
 import Authenticated from "../../Layouts/AdminLayout";
-import { User } from "../../types";
+import { Breadcrumb, User } from "../../types";
 
 const getInitials = (name: string): string => {
     return name
@@ -16,9 +17,9 @@ export default function Dashboard() {
     const user: User = usePage().props.auth.user;
     const initials = getInitials(user.name);
 
-    const breadcrumbs = [
-        { label: "Dashboard", href: route("admin.dashboard") },
-    ];
+    const breadcrumbs: Breadcrumb[] = createBreadcrumbs()
+        .add("Dashboard", route("admin.dashboard"))
+        .toArray();
 
     return (
         <Authenticated breadcrumbs={breadcrumbs}>
@@ -30,11 +31,11 @@ export default function Dashboard() {
                                 {initials}
                             </AvatarFallback>
                         </Avatar>
-                        <div className="ml-4 flex-1">
+                        <div className="ml-4 flex flex-auto justify-between">
                             <h2 className="text-xl font-semibold text-gray-900">
                                 Bienvenido, {user.name.split(" ")[0]}
                             </h2>
-                            <button className="text-sm hover:text-blue-500">
+                            <button className="text-sm p-4 shadow-md rounded-lg hover:bg-zinc-500 hover:text-white">
                                 Cerrrar Sesión
                             </button>
                         </div>

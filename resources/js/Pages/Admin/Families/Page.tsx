@@ -1,3 +1,11 @@
+import Authenticated from "../../../Layouts/AdminLayout";
+import { createBreadcrumbs } from "../../../helpers/breadcrumbs";
+
 export default function Page() {
-    return <h1>Admin Page</h1>;
+    const breadcrumbs = createBreadcrumbs()
+        .add("Dashboard", route("admin.dashboard"))
+        .add("Families", route("admin.families.index"))
+        .toArray();
+
+    return <Authenticated breadcrumbs={breadcrumbs}></Authenticated>;
 }

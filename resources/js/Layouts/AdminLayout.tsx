@@ -1,6 +1,5 @@
-import { Head, Link } from "@inertiajs/react";
-import { PropsWithChildren } from "react";
-import { AppSidebar } from "../Components/app-sidebar";
+// resources/js/Layouts/AuthenticatedLayout.tsx
+import { AppSidebar } from "@/Components/app-sidebar";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -8,25 +7,33 @@ import {
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-} from "../Components/ui/breadcrumb";
-import { Separator } from "../Components/ui/separator";
+} from "@/Components/ui/breadcrumb";
+import { Separator } from "@/Components/ui/separator";
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
-} from "../Components/ui/sidebar";
+} from "@/Components/ui/sidebar";
+import { Head, Link } from "@inertiajs/react";
+import { PropsWithChildren } from "react";
 
-interface AuthenticatedLayoutProps extends PropsWithChildren {
-    breadcrumbs?: { label: string; href?: string }[];
-}
+// Importamos el tipo correctamente (sin colisionar con el componente)
+import type { Breadcrumb as BreadcrumbItemType } from "@/types";
 
-export default function Authenticated({
+type AuthenticatedLayoutProps = PropsWithChildren<{
+    breadcrumbs?: BreadcrumbItemType[];
+    title?: string;
+}>;
+
+export default function AuthenticatedLayout({
     children,
-    breadcrumbs,
+    breadcrumbs = [],
+    title = "Dashboard",
 }: AuthenticatedLayoutProps) {
     return (
         <SidebarProvider>
-            <Head title="Admin Dashboard" />
+            <Head title={title} />
+
             <AppSidebar />
 
             <SidebarInset>
@@ -38,41 +45,50 @@ export default function Authenticated({
                             className="mr-2 h-4"
                         />
 
-                        {breadcrumbs && breadcrumbs.length > 0 && (
+                        {/* Breadcrumbs */}
+                        {breadcrumbs.length > 0 && (
                             <Breadcrumb>
                                 <BreadcrumbList>
-                                    {breadcrumbs.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-center"
-                                        >
-                                            <BreadcrumbItem>
-                                                {item.href &&
-                                                index !==
-                                                    breadcrumbs.length - 1 ? (
-                                                    <BreadcrumbLink asChild>
-                                                        <Link href={item.href}>
+                                    {breadcrumbs.map((item, index) => {
+                                        const isLast =
+                                            index === breadcrumbs.length - 1;
+
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="flex items-center"
+                                            >
+                                                <BreadcrumbItem>
+                                                    {item.href && !isLast ? (
+                                                        <BreadcrumbLink asChild>
+                                                            <Link
+                                                                href={item.href}
+                                                                className="transition-colors hover:text-foreground"
+                                                            >
+                                                                {item.label}
+                                                            </Link>
+                                                        </BreadcrumbLink>
+                                                    ) : (
+                                                        <BreadcrumbPage>
                                                             {item.label}
-                                                        </Link>
-                                                    </BreadcrumbLink>
-                                                ) : (
-                                                    <BreadcrumbPage>
-                                                        {item.label}
-                                                    </BreadcrumbPage>
+                                                        </BreadcrumbPage>
+                                                    )}
+                                                </BreadcrumbItem>
+                                                {!isLast && (
+                                                    <BreadcrumbSeparator />
                                                 )}
-                                            </BreadcrumbItem>
-                                            {index < breadcrumbs.length - 1 && (
-                                                <BreadcrumbSeparator />
-                                            )}
-                                        </div>
-                                    ))}
+                                            </div>
+                                        );
+                                    })}
                                 </BreadcrumbList>
                             </Breadcrumb>
                         )}
                     </div>
                 </header>
 
-                <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+                <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                    {children}
+                </main>
             </SidebarInset>
         </SidebarProvider>
     );
