@@ -1,29 +1,14 @@
 // resources/js/Layouts/AuthenticatedLayout.tsx
 import { AppSidebar } from "@/Components/app-sidebar";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/Components/ui/breadcrumb";
 import { Separator } from "@/Components/ui/separator";
 import {
     SidebarInset,
     SidebarProvider,
     SidebarTrigger,
 } from "@/Components/ui/sidebar";
-import { Head, Link } from "@inertiajs/react";
-import { PropsWithChildren } from "react";
-
-// Importamos el tipo correctamente (sin colisionar con el componente)
-import type { Breadcrumb as BreadcrumbItemType } from "@/types";
-
-type AuthenticatedLayoutProps = PropsWithChildren<{
-    breadcrumbs?: BreadcrumbItemType[];
-    title?: string;
-}>;
+import { Head } from "@inertiajs/react";
+import BreadCrumbItem from "../Components/breadcrumbs-item";
+import { AuthenticatedLayoutProps } from "../types";
 
 export default function AuthenticatedLayout({
     children,
@@ -44,45 +29,7 @@ export default function AuthenticatedLayout({
                             orientation="vertical"
                             className="mr-2 h-4"
                         />
-
-                        {/* Breadcrumbs */}
-                        {breadcrumbs.length > 0 && (
-                            <Breadcrumb>
-                                <BreadcrumbList>
-                                    {breadcrumbs.map((item, index) => {
-                                        const isLast =
-                                            index === breadcrumbs.length - 1;
-
-                                        return (
-                                            <div
-                                                key={index}
-                                                className="flex items-center"
-                                            >
-                                                <BreadcrumbItem>
-                                                    {item.href && !isLast ? (
-                                                        <BreadcrumbLink asChild>
-                                                            <Link
-                                                                href={item.href}
-                                                                className="transition-colors hover:text-foreground"
-                                                            >
-                                                                {item.label}
-                                                            </Link>
-                                                        </BreadcrumbLink>
-                                                    ) : (
-                                                        <BreadcrumbPage>
-                                                            {item.label}
-                                                        </BreadcrumbPage>
-                                                    )}
-                                                </BreadcrumbItem>
-                                                {!isLast && (
-                                                    <BreadcrumbSeparator />
-                                                )}
-                                            </div>
-                                        );
-                                    })}
-                                </BreadcrumbList>
-                            </Breadcrumb>
-                        )}
+                        <BreadCrumbItem breadcrumbs={breadcrumbs} />
                     </div>
                 </header>
 

@@ -14,7 +14,12 @@ class FamilyController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Admin/Families/Page');
+
+        return Inertia::render('Admin/Families/Index',
+            [
+                'families' => Family::paginate(),
+            ]
+        );
     }
 
     /**

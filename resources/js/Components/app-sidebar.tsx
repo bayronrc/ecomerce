@@ -15,25 +15,25 @@ import {
 import { User } from "@/types";
 import { usePage } from "@inertiajs/react";
 
-const data = [
-    {
-        key: 1,
-        name: "Dashboard",
-        url: route("admin.dashboard"),
-        icon: PieChart,
-        active: route().current("admin.dashboard"),
-    },
-    {
-        key: 2,
-        name: "Familias",
-        url: route("admin.families.index"),
-        icon: Users,
-        active: route().current("admin.families.index"),
-    },
-];
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const data = [
+        {
+            key: 1,
+            name: "Dashboard",
+            url: route("admin.dashboard"),
+            icon: PieChart,
+            active: route().current("admin.dashboard"),
+        },
+        {
+            key: 2,
+            name: "Familias",
+            url: route("admin.families.index"),
+            icon: Users,
+            active: route().current("admin.families.index"),
+        },
+    ];
     const user: User = usePage().props.auth.user;
+
     return (
         <Sidebar collapsible="offcanvas" {...props}>
             <SidebarHeader>

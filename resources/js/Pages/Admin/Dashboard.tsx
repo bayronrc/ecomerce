@@ -1,5 +1,6 @@
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import { Button } from "../../Components/ui/button";
 import { createBreadcrumbs } from "../../helpers/breadcrumbs";
 import Authenticated from "../../Layouts/AdminLayout";
 import { Breadcrumb, User } from "../../types";
@@ -21,6 +22,10 @@ export default function Dashboard() {
         .add("Dashboard", route("admin.dashboard"))
         .toArray();
 
+    const handleLogout = () => {
+        router.post(route("logout"));
+    };
+
     return (
         <Authenticated breadcrumbs={breadcrumbs}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -35,9 +40,9 @@ export default function Dashboard() {
                             <h2 className="text-xl font-semibold text-gray-900">
                                 Bienvenido, {user.name.split(" ")[0]}
                             </h2>
-                            <button className="text-sm p-4 shadow-md rounded-lg hover:bg-zinc-500 hover:text-white">
-                                Cerrrar Sesión
-                            </button>
+                            <Button onClick={handleLogout} variant={"outline"}>
+                                Cerrar Sesion
+                            </Button>
                         </div>
                     </div>
                 </div>
