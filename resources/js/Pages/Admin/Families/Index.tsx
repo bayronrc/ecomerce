@@ -1,8 +1,7 @@
 import Authenticated from "@/Layouts/AdminLayout";
 import { createBreadcrumbs } from "@/helpers/breadcrumbs";
-import { Family, PageProps, Pagninated } from "@/types";
-import { usePage } from "@inertiajs/react";
-import { ColumnDef } from "@tanstack/react-table";
+import { columns } from "./columns";
+import DataTableFamilies from "./data-table";
 
 export default function Index() {
     const breadcrumbs = createBreadcrumbs()
@@ -10,9 +9,9 @@ export default function Index() {
         .add("Familias", route("admin.families.index"))
         .toArray();
 
-    const { families } =
-        usePage<PageProps<{ families: Pagninated<Family> }>>().props;
-
-    console.log(families);
-    return <Authenticated breadcrumbs={breadcrumbs}></Authenticated>;
+    return (
+        <Authenticated breadcrumbs={breadcrumbs}>
+            <DataTableFamilies columns={columns} />
+        </Authenticated>
+    );
 }
