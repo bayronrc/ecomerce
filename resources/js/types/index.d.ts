@@ -1,5 +1,6 @@
 import type { Breadcrumb as BreadcrumbItemType } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
+import { ReactElement, ReactNode } from "react";
 
 export interface User {
     id: number;
@@ -14,6 +15,10 @@ export type PageProps<
     auth: {
         user: User;
     };
+};
+
+export type PageWithLayout<P = {}> = React.FC<P> & {
+    layout?: (page: ReactElement) => ReactNode;
 };
 
 export interface Breadcrumb {
@@ -44,8 +49,8 @@ export type Pagninated<T> = {
 export type Family = {
     id: number;
     name: string;
-    created_at: string;
-    updated_at: string;
+    created_at: Date;
+    updated_at: Date;
 };
 
 export interface DataTableProps<TData, TValue> {

@@ -13,7 +13,7 @@ import { AuthenticatedLayoutProps } from "../types";
 export default function AuthenticatedLayout({
     children,
     breadcrumbs = [],
-    title = "Dashboard",
+    title,
 }: AuthenticatedLayoutProps) {
     return (
         <SidebarProvider>
