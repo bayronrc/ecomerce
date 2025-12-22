@@ -152,8 +152,7 @@ export default function DataTable<TData, TValue>({
                 </div>
             </div>
 
-            {/* Información y paginación */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="text-sm text-muted-foreground">
                     Mostrando {from} - {to} de {total} registros
                 </div>

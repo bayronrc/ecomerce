@@ -1,8 +1,10 @@
 import DataTableFamilies from "@/Components/DataTable";
+import { Button } from "@/Components/ui/button";
 import Authenticated from "@/Layouts/AdminLayout";
 import { createBreadcrumbs } from "@/helpers/breadcrumbs";
 import { Family } from "@/types";
-import { columns } from "./columns";
+import { Link } from "@inertiajs/react";
+import { columns } from "./partials/columns";
 
 interface Props {
     families: {
@@ -24,6 +26,14 @@ export default function Index({ families }: Props) {
 
     return (
         <Authenticated title={"Familias"} breadcrumbs={breadcrumbs}>
+            <div className="flex justify-end mb-4">
+                <Button variant={"default"} asChild>
+                    <Link href={route("admin.families.create")}>
+                        Crear Familia
+                    </Link>
+                </Button>
+            </div>
+
             <DataTableFamilies
                 columns={columns}
                 data={families}
