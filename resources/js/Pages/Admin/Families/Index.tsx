@@ -2,7 +2,7 @@ import DataTableFamilies from "@/Components/DataTable";
 import { Button } from "@/Components/ui/button";
 import Authenticated from "@/Layouts/AdminLayout";
 import { createBreadcrumbs } from "@/helpers/breadcrumbs";
-import { Family } from "@/types";
+import { Breadcrumb, Family, PageWithLayout } from "@/types";
 import { Link } from "@inertiajs/react";
 import { columns } from "./partials/columns";
 
@@ -18,18 +18,13 @@ interface Props {
     };
 }
 
-export default function Index({ families }: Props) {
-    const breadcrumbs = createBreadcrumbs()
-        .add("Dashboard", route("admin.dashboard"))
-        .add("Familias", route("admin.families.index"))
-        .toArray();
-
+const Index: PageWithLayout<Props> = ({ families }) => {
     return (
-        <Authenticated title={"Familias"} breadcrumbs={breadcrumbs}>
+        <>
             <div className="flex justify-end mb-4">
                 <Button variant={"default"} asChild>
                     <Link href={route("admin.families.create")}>
-                        Crear Familia
+                        Nueva Familia
                     </Link>
                 </Button>
             </div>
@@ -39,6 +34,22 @@ export default function Index({ families }: Props) {
                 data={families}
                 routeName="admin.families.index"
             />
-        </Authenticated>
+        </>
     );
-}
+};
+
+Index.layout = (page) => {
+    const breadcrumbs: Breadcrumb[] = createBreadcrumbs()
+        .add("Dashboard", route("admin.dashboard"))
+        .add("Familias", route("admin.families.index"))
+        .toArray();
+    return (
+        <Authenticated
+            children={page}
+            title="Familias"
+            breadcrumbs={breadcrumbs}
+        />
+    );
+};
+
+export default Index;

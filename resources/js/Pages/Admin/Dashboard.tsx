@@ -1,9 +1,9 @@
-import { router, usePage } from "@inertiajs/react";
+import { Button } from "@/Components/ui/button";
+import Authenticated from "@/Layouts/AdminLayout";
+import { Breadcrumb, PageWithLayout, User } from "@/types";
+import { Head, router, usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import { Button } from "../../Components/ui/button";
 import { createBreadcrumbs } from "../../helpers/breadcrumbs";
-import Authenticated from "../../Layouts/AdminLayout";
-import { Breadcrumb, User } from "../../types";
 
 const getInitials = (name: string): string => {
     return name
@@ -14,40 +14,62 @@ const getInitials = (name: string): string => {
         .join("");
 };
 
-export default function Dashboard() {
-    const user: User = usePage().props.auth.user;
-    const initials = getInitials(user.name);
+const Dashboard: PageWithLayout = () => {
+    const { auth } = usePage<{ auth: { user: User } }>().props;
+    const user = auth.user;
 
-    const breadcrumbs: Breadcrumb[] = createBreadcrumbs()
-        .add("Dashboard", route("admin.dashboard"))
-        .toArray();
+    const initials = getInitials(user.name);
 
     const handleLogout = () => {
         router.post(route("logout"));
     };
 
     return (
-        <Authenticated breadcrumbs={breadcrumbs}>
+        <>
+            <Head title="Dashboard" />
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-lg shadow-lg p-4 w-full">
-                    <div className="flex items-center">
-                        <Avatar>
-                            <AvatarFallback className="bg-black size-10 text-white flex items-center justify-center text-xl font-bold rounded-full">
-                                {initials}
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="ml-4 flex flex-auto justify-between">
-                            <h2 className="text-xl font-semibold text-gray-900">
-                                Bienvenido, {user.name.split(" ")[0]}
-                            </h2>
-                            <Button onClick={handleLogout} variant={"outline"}>
-                                Cerrar Sesion
-                            </Button>
+                {/* Card de Bienvenida */}
+                <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <Avatar>
+                                <AvatarFallback className="bg-black size-10 text-white flex items-center justify-center text-xl font-bold rounded-full">
+                                    {initials}
+                                </AvatarFallback>
+                            </Avatar>
+
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-900">
+                                    Bienvenido, {user.name.split(" ")[0]}
+                                </h2>
+                                <p className="text-sm text-muted-foreground">
+                                    Qué bueno verte de nuevo.
+                                </p>
+                            </div>
                         </div>
+
+                        <Button onClick={handleLogout} variant={"outline"}>
+                            Cerrar Sesión
+                        </Button>
                     </div>
                 </div>
-                <div className="bg-white rounded-lg shadow-lg p-6"></div>
             </div>
-        </Authenticated>
+        </>
     );
-}
+};
+
+Dashboard.layout = (page) => {
+    const breadcrumbs: Breadcrumb[] = createBreadcrumbs()
+        .add("Dashboard", route("admin.dashboard"))
+        .toArray();
+    return (
+        <Authenticated
+            children={page}
+            title="Dashboard"
+            breadcrumbs={breadcrumbs}
+        />
+    );
+};
+
+export default Dashboard;
