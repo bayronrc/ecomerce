@@ -1,18 +1,10 @@
 import { Button } from "@/Components/ui/button";
+import { createBreadcrumbs } from "@/helpers/breadcrumbs";
 import Authenticated from "@/Layouts/AdminLayout";
+import { getInitials } from "@/lib/utils";
 import { Breadcrumb, PageWithLayout, User } from "@/types";
-import { Head, router, usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
-import { createBreadcrumbs } from "../../helpers/breadcrumbs";
-
-const getInitials = (name: string): string => {
-    return name
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map((word) => word.charAt(0).toUpperCase())
-        .join("");
-};
 
 const Dashboard: PageWithLayout = () => {
     const { auth } = usePage<{ auth: { user: User } }>().props;
@@ -26,8 +18,6 @@ const Dashboard: PageWithLayout = () => {
 
     return (
         <>
-            <Head title="Dashboard" />
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Card de Bienvenida */}
                 <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
