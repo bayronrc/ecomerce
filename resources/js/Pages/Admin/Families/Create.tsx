@@ -5,8 +5,8 @@ import { Label } from "@/Components/ui/label";
 import { createBreadcrumbs } from "@/helpers/breadcrumbs";
 import Authenticated from "@/Layouts/AdminLayout";
 import { PageWithLayout } from "@/types";
-import { Link, useForm } from "@inertiajs/react";
-import { Loader2, Save, X } from "lucide-react";
+import { useForm } from "@inertiajs/react";
+import { Loader2, Save } from "lucide-react";
 
 const Create: PageWithLayout = () => {
     const { data, setData, post, processing, errors } = useForm({
@@ -24,7 +24,7 @@ const Create: PageWithLayout = () => {
                 <Card className="shadow-sm border-slate-200">
                     <CardHeader className="border-b bg-slate-50/50">
                         <CardTitle className="text-xl font-bold text-slate-800">
-                            Información de la Familia
+                            Crear Nueva Familia
                         </CardTitle>
                     </CardHeader>
 
@@ -42,7 +42,7 @@ const Create: PageWithLayout = () => {
                                 </Label>
                                 <Input
                                     id="name"
-                                    placeholder="Ej: Familia García Pérez"
+                                    placeholder="Ingrese el nombre de la familia"
                                     value={data.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
@@ -62,18 +62,7 @@ const Create: PageWithLayout = () => {
                             </div>
 
                             {/* Botones de Acción */}
-                            <div className="flex items-center justify-end gap-3 pt-4 border-t">
-                                <Button
-                                    variant="ghost"
-                                    asChild
-                                    disabled={processing}
-                                >
-                                    <Link href={route("admin.families.index")}>
-                                        <X className="w-4 h-4 mr-2" />
-                                        Cancelar
-                                    </Link>
-                                </Button>
-
+                            <div className="flex justify-end gap-3 pt-4 border-t">
                                 <Button type="submit" disabled={processing}>
                                     {processing ? (
                                         <>
