@@ -7,6 +7,7 @@ import {
     SidebarTrigger,
 } from "@/Components/ui/sidebar";
 import { Head } from "@inertiajs/react";
+import { Toaster } from "sonner";
 import BreadCrumbItem from "../Components/breadcrumbs-item";
 import { AuthenticatedLayoutProps } from "../types";
 
@@ -18,6 +19,7 @@ export default function AuthenticatedLayout({
     return (
         <SidebarProvider>
             <Head title={title} />
+            <Toaster position="top-right" />
 
             <AppSidebar />
 

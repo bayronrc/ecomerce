@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('sku');
             $table->string('image_path')->nullable();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@ import { Button } from "@/Components/ui/button";
 import { Family } from "@/types/index";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+import { ActionsCellFamilies } from "./ActionsCellFamilies";
 
 const opciones: Intl.DateTimeFormatOptions = {
     year: "numeric",
@@ -26,7 +27,7 @@ export const columns: ColumnDef<Family>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Email
+                    Nombre
                     <ArrowUpDown />
                 </Button>
             );
@@ -47,5 +48,13 @@ export const columns: ColumnDef<Family>[] = [
             new Intl.DateTimeFormat("es-Es", opciones).format(
                 new Date(row.getValue("created_at"))
             ),
+    },
+    {
+        id: "actions",
+        header: "Acciones",
+        cell: ({ row }) => {
+            const family = row.original;
+            return <ActionsCellFamilies family={family} />;
+        },
     },
 ];

@@ -17,7 +17,7 @@ class FamilyController extends Controller
 
         return Inertia::render('Admin/Families/Index',
             [
-                'families' => Family::paginate(),
+                'families' => Family::orderBy('id', 'desc')->paginate(10),
             ]
         );
     }
@@ -35,7 +35,16 @@ class FamilyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ], [
+            'name.required' => 'No puedes dejar el nombre de la familia vacio',
+            'name.max' => 'El nombre es demasiado largo, intenta con algo mas corto',
+        ]);
+
+        Family::create($request->all());
+
+        return redirect()->route('admin.families.index');
     }
 
     /**
@@ -51,7 +60,9 @@ class FamilyController extends Controller
      */
     public function edit(Family $family)
     {
-        //
+        return Inertia::render('Admin/Families/Edit', [
+            'family' => $family,
+        ]);
     }
 
     /**
@@ -59,7 +70,16 @@ class FamilyController extends Controller
      */
     public function update(Request $request, Family $family)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ], [
+            'name.required' => 'No puedes dejar el nombre de la familia vacio',
+            'name.max' => 'El nombre es demasiado largo, intenta con algo mas corto',
+        ]);
+
+        $family->update($request->all());
+
+        return redirect()->route('admin.families.edit', $family->id);
     }
 
     /**
@@ -67,6 +87,8 @@ class FamilyController extends Controller
      */
     public function destroy(Family $family)
     {
-        //
+        $family->delete();
+
+        return redirect()->route('admin.families.index');
     }
 }
