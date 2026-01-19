@@ -54,6 +54,11 @@ export type Family = {
     updated_at: Date;
 };
 
+export type Category = {
+    id: number;
+    name: string;
+};
+
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];

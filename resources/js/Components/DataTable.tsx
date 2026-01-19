@@ -15,6 +15,7 @@ import {
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
+    getPaginationRowModel,
     getSortedRowModel,
     SortingState,
     useReactTable,
@@ -49,7 +50,7 @@ export default function DataTable<TData, TValue>({
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {}
+        {},
     );
     const [rowSelection, setRowSelection] = useState({});
 
@@ -59,11 +60,12 @@ export default function DataTable<TData, TValue>({
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
-        manualPagination: true, // Importante: paginación del servidor
+        manualPagination: false, // Importante: paginación del servidor
         pageCount: data.last_page,
         state: {
             sorting,
@@ -81,7 +83,6 @@ export default function DataTable<TData, TValue>({
         router.visit(route(routeName, { ...routeParams, page }), {
             preserveState: true,
             preserveScroll: true,
-            only: ["families"], // opcional: solo recarga los datos necesarios
         });
     };
 
@@ -110,7 +111,7 @@ export default function DataTable<TData, TValue>({
                                                 : flexRender(
                                                       header.column.columnDef
                                                           .header,
-                                                      header.getContext()
+                                                      header.getContext(),
                                                   )}
                                         </TableHead>
                                     ))}
@@ -131,7 +132,7 @@ export default function DataTable<TData, TValue>({
                                             <TableCell key={cell.id}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
-                                                    cell.getContext()
+                                                    cell.getContext(),
                                                 )}
                                             </TableCell>
                                         ))}
@@ -152,7 +153,7 @@ export default function DataTable<TData, TValue>({
                 </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
                 <div className="text-sm text-muted-foreground">
                     Mostrando {from} - {to} de {total} registros
                 </div>
@@ -167,11 +168,9 @@ export default function DataTable<TData, TValue>({
                         <ChevronLeft className="h-4 w-4" />
                         Anterior
                     </Button>
-
                     <span className="text-sm font-medium px-4">
                         Página {data.current_page} de {data.last_page}
                     </span>
-
                     <Button
                         variant="outline"
                         size="sm"

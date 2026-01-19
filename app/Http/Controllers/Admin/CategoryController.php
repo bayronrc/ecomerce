@@ -12,9 +12,19 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Admin/categories/Index');
+        $perPage = $request->query('per_page', 15);
+
+        $page = $request->query('page', 1);
+
+        $categories = Category::orderBy('id', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page)
+            ->appends($request->query());
+
+        return Inertia::render('Admin/categories/Index', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
