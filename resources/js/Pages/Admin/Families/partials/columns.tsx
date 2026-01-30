@@ -1,60 +1,39 @@
-import { Button } from "@/Components/ui/button";
+import { ActionsCell } from "@/Components/Table/ActionsCell";
+import { SortableHeaderButton } from "@/Components/Table/SortableHeaderButton";
+import { createDateColumn } from "@/Components/Table/dateFormatters";
 import { Family } from "@/types/index";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
-import { ActionsCellFamilies } from "./ActionsCellFamilies";
 
-const opciones: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false, // Para usar formato 24h
-};
 export const columns: ColumnDef<Family>[] = [
     {
         accessorKey: "id",
-        header: "Id",
+        header: ({ column }) => (
+            <SortableHeaderButton label="Id" column={column} />
+        ),
     },
     {
         accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() =>
-                        column.toggleSorting(column.getIsSorted() === "asc")
-                    }
-                >
-                    Nombre
-                    <ArrowUpDown />
-                </Button>
-            );
-        },
+        header: ({ column }) => (
+            <SortableHeaderButton label="Nombre" column={column} />
+        ),
     },
-    {
-        accessorKey: "created_at",
-        header: "Fecha de Creación",
-        cell: ({ row }) =>
-            new Intl.DateTimeFormat("es-Es", opciones).format(
-                new Date(row.getValue("created_at"))
-            ),
-    },
-    {
-        accessorKey: "updated_at",
-        header: "Fecha de Actualizacion",
-        cell: ({ row }) =>
-            new Intl.DateTimeFormat("es-Es", opciones).format(
-                new Date(row.getValue("created_at"))
-            ),
-    },
+    createDateColumn("created_at", "Fecha de Creación"),
+    createDateColumn("updated_at", "Fecha de Actualización"),
     {
         id: "actions",
         header: "Acciones",
         cell: ({ row }) => {
             const family = row.original;
-            return <ActionsCellFamilies family={family} />;
+            return (
+                <ActionsCell
+                    item={family}
+                    editRoute={route("admin.families.edit", family.id)}
+                    deleteRoute={route("admin.families.destroy", family.id)}
+                    entityName="familia"
+                    successMessage="Familia eliminada correctamente"
+                    errorMessage="Error al eliminar la familia"
+                />
+            );
         },
     },
 ];

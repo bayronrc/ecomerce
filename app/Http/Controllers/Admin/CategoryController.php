@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Family;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,10 +16,20 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->query('per_page', 15);
-
         $page = $request->query('page', 1);
 
-        $categories = Category::orderBy('id', 'desc')
+        $sortBy = $request->query('sortBy', 'id');
+        $sortOrder = $request->query('sortOrder', 'desc');
+
+        $allowedSortFields = ['id', 'name', 'created_at', 'updated_at'];
+        if (! in_array($sortBy, $allowedSortFields)) {
+            $sortBy = 'id';
+        }
+
+        $sortOrder = in_array($sortOrder, ['asc', 'desc']) ? $sortOrder : 'desc';
+
+        $categories = Category::query()->with('family')
+            ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page)
             ->appends($request->query());
 
@@ -32,7 +43,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $families = Family::all();
+
+        return Inertia::render('Admin/categories/Create', [
+            'families' => $families,
+        ]);
     }
 
     /**

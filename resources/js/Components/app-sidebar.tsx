@@ -29,14 +29,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             name: "Familias",
             url: route("admin.families.index"),
             icon: Users,
-            active: route().current("admin.families.index"),
+            active: route().current("admin.families.*"),
         },
         {
-            key: 2,
+            key: 3,
             name: "Categories",
             url: route("admin.categories.index"),
             icon: BoxesIcon,
-            active: route().current("admin.categories.index"),
+            active: route().current("admin.categories.*"),
         },
     ];
     const user: User = usePage().props.auth.user;

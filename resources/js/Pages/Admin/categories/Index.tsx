@@ -1,9 +1,9 @@
+import DataTable from "@/Components/DataTable";
 import { Button } from "@/Components/ui/button";
 import { createBreadcrumbs } from "@/helpers/breadcrumbs";
 import AuthenticatedLayout from "@/Layouts/AdminLayout";
 import { Breadcrumb, Category, PageWithLayout } from "@/types";
 import { Link } from "@inertiajs/react";
-import { DataTable, DataTableFooter } from "@wandry/inertia-table";
 import { columns } from "./partials/columns";
 
 interface Props {
@@ -30,8 +30,11 @@ const Index: PageWithLayout<Props> = ({ categories }) => {
                     </Link>
                 </Button>
             </div>
-            <DataTable columns={columns} data={categories.data} />
-            <DataTableFooter pagination={categories} />
+            <DataTable
+                columns={columns}
+                data={categories}
+                routeName="admin.categories.index"
+            />
         </>
     );
 };

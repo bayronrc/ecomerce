@@ -8,25 +8,40 @@ import {
     AlertDialogTitle,
 } from "@/Components/ui/alert-dialog";
 import { Button } from "@/Components/ui/button";
-import { Family } from "@/types/index";
 import { router } from "@inertiajs/react";
 import { Edit, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export function ActionsCellFamilies({ family }: { family: Family }) {
+interface ActionsCellProps {
+    item: { id: number; name: string };
+    editRoute: string;
+    deleteRoute: string;
+    successMessage?: string;
+    errorMessage?: string;
+    entityName?: string;
+}
+
+export function ActionsCell({
+    item,
+    editRoute,
+    deleteRoute,
+    successMessage = "Elemento eliminado correctamente",
+    errorMessage = "Error al eliminar el elemento",
+    entityName = "elemento",
+}: ActionsCellProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handleDelete = () => {
         setIsDeleting(true);
-        router.delete(route("admin.families.destroy", family.id), {
+        router.delete(deleteRoute, {
             onSuccess: () => {
-                toast.success("Familia eliminada correctamente");
+                toast.success(successMessage);
                 setIsOpen(false);
             },
             onError: () => {
-                toast.error("Error al eliminar la familia");
+                toast.error(errorMessage);
                 setIsDeleting(false);
             },
         });
@@ -38,9 +53,8 @@ export function ActionsCellFamilies({ family }: { family: Family }) {
                 <Button
                     size="sm"
                     variant="outline"
-                    onClick={() =>
-                        router.get(route("admin.families.edit", family.id))
-                    }
+                    onClick={() => router.get(editRoute)}
+                    title="Editar"
                 >
                     <Edit className="w-4 h-4" />
                 </Button>
@@ -49,6 +63,7 @@ export function ActionsCellFamilies({ family }: { family: Family }) {
                     size="sm"
                     variant="outline"
                     onClick={() => setIsOpen(true)}
+                    title="Eliminar"
                 >
                     <Trash2 className="w-4 h-4" />
                 </Button>
@@ -57,10 +72,12 @@ export function ActionsCellFamilies({ family }: { family: Family }) {
             <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>¿Eliminar familia?</AlertDialogTitle>
+                        <AlertDialogTitle>
+                            ¿Eliminar {entityName}?
+                        </AlertDialogTitle>
                         <AlertDialogDescription>
-                            ¿Estás seguro de que deseas eliminar la familia{" "}
-                            <strong>{family.name}</strong>? Esta acción no se
+                            ¿Estás seguro de que deseas eliminar{" "}
+                            <strong>{item.name}</strong>? Esta acción no se
                             puede deshacer.
                         </AlertDialogDescription>
                     </AlertDialogHeader>

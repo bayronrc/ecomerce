@@ -1,0 +1,99 @@
+```
+ESTRUCTURA DE COMPONENTES REUTILIZABLES
+=====================================
+
+┌─ /Components/Table/ (Nueva carpeta con componentes reutilizables)
+│
+├─ SortableHeaderButton.tsx
+│  └─ Botón de encabezado sorteable genérico
+│     Props: label, column
+│     Uso: En cualquier header que necesite ordenamiento
+│
+├─ ActionsCell.tsx
+│  └─ Componente genérico para acciones (Edit/Delete)
+│     Props: item, editRoute, deleteRoute, entityName, mensajes
+│     Uso: Reemplaza ActionsCellCategories.tsx y ActionsCellFamilies.tsx
+│
+├─ dateFormatters.ts
+│  ├─ DATE_FORMAT_OPTIONS: Formato centralizado
+│  ├─ formatDate(): Función para formatear una fecha
+│  └─ createDateColumn(): Helper para crear columnas de fecha
+│     Uso: Para cualquier columna de fecha en la tabla
+│
+├─ EXAMPLES.tsx
+│  └─ Ejemplos de uso de los componentes
+│
+└─ README.md
+   └─ Documentación completa
+
+ANTES DE LA REFACTORIZACIÓN
+============================
+
+📁 /Pages/Admin/Categories/
+├─ columns.tsx (95 líneas) ✗ Duplicación
+├─ ActionCellCategories.tsx (80 líneas) ✗ Duplicación
+└─ Index.tsx
+
+📁 /Pages/Admin/Families/
+├─ columns.tsx (95 líneas) ✗ Duplicación
+├─ ActionsCellFamilies.tsx (80 líneas) ✗ Duplicación
+└─ Index.tsx
+
+❌ Problemas:
+- 350 líneas de código duplicado
+- Mantener dos versiones del mismo componente
+- Formato de fecha duplicado en múltiples archivos
+- Difícil agregar nuevas tablas
+
+DESPUÉS DE LA REFACTORIZACIÓN
+==============================
+
+📁 /Components/Table/
+├─ SortableHeaderButton.tsx (15 líneas)
+├─ ActionsCell.tsx (60 líneas)
+├─ dateFormatters.ts (22 líneas)
+├─ EXAMPLES.tsx (Documentación)
+└─ README.md (Guía)
+
+📁 /Pages/Admin/Categories/
+├─ columns.tsx (38 líneas) ✓ Limpio
+└─ Index.tsx
+
+📁 /Pages/Admin/Families/
+├─ columns.tsx (38 líneas) ✓ Limpio
+└─ Index.tsx
+
+✅ Beneficios:
+- 61% menos código
+- Un solo lugar para mantener lógica
+- Fácil agregar nuevas tablas (copy-paste columns.tsx)
+- Cambios globales en un solo lugar
+- Mejor testabilidad
+
+FLUJO DE USO
+===========
+
+1. Crear columns.tsx
+   └─ Import components
+   └─ Define ColumnDef array
+   └─ Use SortableHeaderButton, ActionsCell, createDateColumn
+
+2. Crear Index.tsx
+   └─ Import columns from ./partials/columns
+   └─ Use <DataTable columns={columns} data={data} routeName="..." />
+
+3. (Opcional) Backend support
+   └─ El controlador recibe sortBy y sortOrder
+   └─ Aplica ordenamiento en la query
+
+ESCALABILIDAD FUTURA
+====================
+
+✓ Creados: SortableHeaderButton, ActionsCell, dateFormatters
+⏳ Próximos:
+  - StatusBadgeColumn: Para columnas de estado
+  - CustomActionsCell: Para acciones personalizadas
+  - ImageColumn: Para mostrar imágenes
+  - PriceColumn: Para formatear precios
+  - BooleanColumn: Para valores booleanos
+```

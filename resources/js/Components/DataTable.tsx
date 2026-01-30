@@ -54,6 +54,26 @@ export default function DataTable<TData, TValue>({
     );
     const [rowSelection, setRowSelection] = useState({});
 
+    // Manejador para cambios de ordenamiento
+    const handleSortingChange = (updater: any) => {
+        const newSorting =
+            typeof updater === "function" ? updater(sorting) : updater;
+        setSorting(newSorting);
+
+        // Ir a la primera página cuando se cambia el ordenamiento
+        const params: Record<string, any> = { ...routeParams, page: 1 };
+
+        if (newSorting.length > 0) {
+            params.sortBy = newSorting[0].id;
+            params.sortOrder = newSorting[0].desc ? "desc" : "asc";
+        }
+
+        router.visit(route(routeName, params), {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    };
+
     const table = useReactTable({
         data: data.data,
         columns,
@@ -61,11 +81,12 @@ export default function DataTable<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        onSortingChange: setSorting,
+        onSortingChange: handleSortingChange,
         onColumnFiltersChange: setColumnFilters,
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
-        manualPagination: false, // Importante: paginación del servidor
+        manualPagination: true, // Paginación del servidor
+        manualSorting: true, // Ordenamiento del servidor
         pageCount: data.last_page,
         state: {
             sorting,
@@ -80,7 +101,15 @@ export default function DataTable<TData, TValue>({
     });
 
     const goToPage = (page: number) => {
-        router.visit(route(routeName, { ...routeParams, page }), {
+        const params: Record<string, any> = { ...routeParams, page };
+
+        // Agregar parámetros de ordenamiento si existen
+        if (sorting.length > 0) {
+            params.sortBy = sorting[0].id;
+            params.sortOrder = sorting[0].desc ? "desc" : "asc";
+        }
+
+        router.visit(route(routeName, params), {
             preserveState: true,
             preserveScroll: true,
         });
