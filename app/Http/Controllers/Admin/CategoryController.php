@@ -55,7 +55,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'family_id' => 'required|exist:families,id',
+            'name' => 'required',
+        ]);
+
+        Category::create($request->all());
     }
 
     /**

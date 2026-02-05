@@ -53,6 +53,7 @@ export const exampleColumns1: ColumnDef<Example1>[] = [
 // Ejemplo 2: Tabla con más columnas personalizadas
 interface Example2 {
     id: number;
+    name: string;
     title: string;
     description: string;
     status: string;

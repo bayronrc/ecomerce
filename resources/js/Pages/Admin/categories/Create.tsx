@@ -1,12 +1,12 @@
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
+import { Label } from "@/Components/ui/label";
 import {
     Select,
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/Components/ui/select";
@@ -15,7 +15,6 @@ import Authenticated from "@/Layouts/AdminLayout";
 import { Family, PageWithLayout } from "@/types";
 import { useForm } from "@inertiajs/react";
 import { Loader2, Save } from "lucide-react";
-import { Label } from "recharts";
 import { toast } from "sonner";
 
 interface Props {
@@ -25,6 +24,7 @@ interface Props {
 const Create: PageWithLayout<Props> = ({ families }) => {
     const { data, setData, post, processing, errors } = useForm({
         name: "",
+        family_id: "",
     });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -58,28 +58,25 @@ const Create: PageWithLayout<Props> = ({ families }) => {
                                 >
                                     Nombre de la Familia
                                 </Label>
-                                <Select>
+                                <Select
+                                    value={data.family_id}
+                                    onValueChange={(value) =>
+                                        setData("family_id", value)
+                                    }
+                                >
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select a fruit" />
+                                        <SelectValue placeholder="Seleccione la Familia de la categoria que quiere crear" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                            <SelectLabel>Fruits</SelectLabel>
-                                            <SelectItem value="apple">
-                                                Apple
-                                            </SelectItem>
-                                            <SelectItem value="banana">
-                                                Banana
-                                            </SelectItem>
-                                            <SelectItem value="blueberry">
-                                                Blueberry
-                                            </SelectItem>
-                                            <SelectItem value="grapes">
-                                                Grapes
-                                            </SelectItem>
-                                            <SelectItem value="pineapple">
-                                                Pineapple
-                                            </SelectItem>
+                                            {families.map((family) => (
+                                                <SelectItem
+                                                    key={family.id}
+                                                    value={family.id.toString()}
+                                                >
+                                                    {family.name}
+                                                </SelectItem>
+                                            ))}
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>

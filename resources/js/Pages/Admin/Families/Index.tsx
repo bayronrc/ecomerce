@@ -21,7 +21,7 @@ interface Props {
 const Index: PageWithLayout<Props> = ({ families }) => {
     return (
         <>
-            <div className="flex justify-end mb-4">
+            <div className="flex justify-end">
                 <Button variant={"default"} asChild>
                     <Link href={route("admin.families.create")}>
                         Nueva Familia
