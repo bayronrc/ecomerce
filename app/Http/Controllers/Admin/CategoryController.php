@@ -56,11 +56,15 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'family_id' => 'required|exist:families,id',
-            'name' => 'required',
+            'family_id' => 'required|string|max:30|exists:families,id',
+        ], [
+            'name.required' => 'No puedes dejar el nombre de la familia vacio',
+            'name.max' => 'El nombre es demasiado largo, intenta con algo mas corto',
         ]);
 
         Category::create($request->all());
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -92,6 +96,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('admin.categories.index');
     }
 }
