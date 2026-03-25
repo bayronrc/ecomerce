@@ -57,6 +57,7 @@ export type Family = {
 export type Category = {
     id: number;
     name: string;
+    family_id: number;
 };
 
 export interface DataTableProps<TData, TValue> {

@@ -78,7 +78,7 @@ const Edit: PageWithLayout<Props> = ({ family }: Props) => {
                                     variant="outline"
                                     onClick={() =>
                                         router.get(
-                                            route("admin.families.index")
+                                            route("admin.families.index"),
                                         )
                                     }
                                     disabled={processing}

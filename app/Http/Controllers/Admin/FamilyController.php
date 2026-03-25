@@ -15,7 +15,8 @@ class FamilyController extends Controller
     public function index()
     {
 
-        return Inertia::render('Admin/Families/Index',
+        return Inertia::render(
+            'Admin/Families/Index',
             [
                 'families' => Family::orderBy('id', 'desc')->paginate(10),
             ]
@@ -87,8 +88,23 @@ class FamilyController extends Controller
      */
     public function destroy(Family $family)
     {
-        $family->delete();
+        if ($family->categories->count() > 0) {
 
-        return redirect()->route('admin.families.index');
+            session()->flash('swal', [
+                'icon' => 'error',
+                'title' => '¡Ups',
+                'text' => 'No se puede eliminar la familia porque tiene categorias asociadas'
+            ]);
+
+            $family->delete();
+
+            session()->flash('swal', [
+                'icon' => 'success',
+                'title' => '¡Bien hecho!',
+                'text' => 'Familia Eliminada correctamente'
+            ]);
+
+            return redirect()->route('admin.families.index');
+        }
     }
 }

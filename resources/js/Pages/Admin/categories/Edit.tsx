@@ -12,29 +12,30 @@ import {
 } from "@/Components/ui/select";
 import { createBreadcrumbs } from "@/helpers/breadcrumbs";
 import Authenticated from "@/Layouts/AdminLayout";
-import { Family, PageWithLayout } from "@/types";
+import { Category, Family, PageWithLayout } from "@/types";
 import { useForm } from "@inertiajs/react";
 import { Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
     families: Family[];
+    categories: Category;
 }
 
-const Create: PageWithLayout<Props> = ({ families }) => {
-    const { data, setData, post, processing, errors } = useForm({
-        name: "",
-        family_id: "",
+const Edit: PageWithLayout<Props> = ({ families, categories }) => {
+    const { data, setData, patch, processing, errors } = useForm({
+        name: categories.name || "",
+        family_id: categories.family_id || "",
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route("admin.categories.store"), {
+        patch(route("admin.categories.update", categories.id), {
             onSuccess: () => {
-                toast.success("Categoria creada correctamente");
+                toast.success("Categoria actualizada correctamente");
             },
             onError: () => {
-                toast.error("Error al crear la Categoria");
+                toast.error("Error al actualizar la Categoria");
             },
         });
     };
@@ -45,7 +46,7 @@ const Create: PageWithLayout<Props> = ({ families }) => {
                 <Card className="shadow-sm border-slate-200">
                     <CardHeader className="border-b bg-slate-50/50">
                         <CardTitle className="text-xl font-bold text-slate-800">
-                            Crear Nueva Categoria
+                            Editar Categoria : {categories.name}
                         </CardTitle>
                     </CardHeader>
 
@@ -54,19 +55,21 @@ const Create: PageWithLayout<Props> = ({ families }) => {
                             <div className="space-y-2 flex flex-col">
                                 <Label
                                     className={
-                                        errors.name ? "text-destructive" : ""
+                                        errors.family_id
+                                            ? "text-destructive"
+                                            : ""
                                     }
                                 >
                                     Nombre de la Familia
                                 </Label>
                                 <Select
-                                    value={data.family_id}
+                                    value={data.family_id.toString()}
                                     onValueChange={(value) =>
                                         setData("family_id", value)
                                     }
                                 >
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Seleccione la Familia de la categoria que quiere crear" />
+                                        <SelectValue placeholder="Seleccione la Familia de la categoria que quiere editar" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
@@ -81,9 +84,10 @@ const Create: PageWithLayout<Props> = ({ families }) => {
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
-                                {errors.name && (
+
+                                {errors.family_id && (
                                     <p className="text-sm font-medium text-destructive">
-                                        {errors.name}
+                                        {errors.family_id}
                                     </p>
                                 )}
                             </div>
@@ -121,12 +125,12 @@ const Create: PageWithLayout<Props> = ({ families }) => {
                                     {processing ? (
                                         <>
                                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                            Guardando...
+                                            Actualizando...
                                         </>
                                     ) : (
                                         <>
                                             <Save className="w-4 h-4 mr-2" />
-                                            Crear Catgoria
+                                            Actualizar Categoria
                                         </>
                                     )}
                                 </Button>
@@ -139,18 +143,20 @@ const Create: PageWithLayout<Props> = ({ families }) => {
     );
 };
 
-Create.layout = (page) => {
+Edit.layout = (page) => {
+    const { categories } = page.props as Props;
+    console.log(categories);
     return (
         <Authenticated
-            title="Crear Nueva Familia"
+            title="Editar Categoria"
             breadcrumbs={createBreadcrumbs()
                 .add("Dashboard", route("admin.dashboard"))
                 .add("Categorias", route("admin.categories.index"))
-                .add("Nuevo")
+                .add(`${categories.name}`)
                 .toArray()}
             children={page}
         />
     );
 };
 
-export default Create;
+export default Edit;
