@@ -14,12 +14,14 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 interface ActionsCellProps {
-    item: { id: number; name: string };
+    item: { id: number; name: string; [key: string]: any };
     editRoute: string;
     deleteRoute: string;
     successMessage?: string;
     errorMessage?: string;
     entityName?: string;
+    canDelete?: boolean;
+    deleteDisabledReason?: string;
 }
 
 export function ActionsCell({
@@ -29,6 +31,8 @@ export function ActionsCell({
     successMessage = "Elemento eliminado correctamente",
     errorMessage = "Error al eliminar el elemento",
     entityName = "elemento",
+    canDelete = true,
+    deleteDisabledReason,
 }: ActionsCellProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -63,7 +67,8 @@ export function ActionsCell({
                     size="sm"
                     variant="outline"
                     onClick={() => setIsOpen(true)}
-                    title="Eliminar"
+                    disabled={!canDelete}
+                    title={deleteDisabledReason || "Eliminar"}
                 >
                     <Trash2 className="w-4 h-4" />
                 </Button>

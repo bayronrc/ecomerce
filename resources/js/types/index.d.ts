@@ -60,6 +60,12 @@ export type Category = {
     family_id: number;
 };
 
+export type Subcategory = {
+    id: number;
+    name: string;
+    subcategory_id: number;
+};
+
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];

@@ -29,6 +29,7 @@ class CategoryController extends Controller
         $sortOrder = in_array($sortOrder, ['asc', 'desc']) ? $sortOrder : 'desc';
 
         $categories = Category::query()->with('family')
+            ->withCount('subcategories')
             ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page)
             ->appends($request->query());
@@ -84,12 +85,14 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         $families = Family::all();
+        $subcategoriesCount = $category->subcategories()->count();
+
         return Inertia::render(
             'Admin/categories/Edit',
             [
-                'categories' => $category,
+                'category' => $category,
                 'families' => $families,
-
+                'subcategoriesCount' => $subcategoriesCount,
             ]
         );
     }
@@ -118,25 +121,21 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-
+        // Verificar si la categoría tiene subcategorías ANTES de eliminar
         if ($category->subcategories()->count() > 0) {
-            session()->flash('swal', [
-                'icon' => 'error',
-                'title' => '¡Ups!',
-                'text' => 'No se puede eliminar la categoria porque tiene subcategorias asociadas'
+            return redirect()->back()->withErrors([
+                'error' => 'No se puede eliminar la categoría porque tiene ' . $category->subcategories()->count() . ' subcategoría(s) asociada(s)'
             ]);
-
-            return redirect()->route('admin.categories.edit', $category);
         }
+
         $category->delete();
 
         session()->flash('swal', [
             'icon' => 'success',
-            'title' => '¡Bien hecho',
-            'texto' => 'Categoria eliminada correctamente'
+            'title' => '¡Bien hecho!',
+            'text' => 'Categoría eliminada correctamente'
         ]);
 
-        return redirect()->route('admin.categories.edit', $category);
+        return redirect()->route('admin.categories.index');
     }
 }

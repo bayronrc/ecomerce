@@ -1,10 +1,10 @@
 import { ActionsCell } from "@/Components/Table/ActionsCell";
 import { SortableHeaderButton } from "@/Components/Table/SortableHeaderButton";
 import { createDateColumn } from "@/Components/Table/dateFormatters";
-import { Category } from "@/types/index";
+import { Subcategory } from "@/types/index";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Subcategory>[] = [
     {
         accessorKey: "id",
         header: ({ column }) => (
@@ -27,21 +27,25 @@ export const columns: ColumnDef<Category>[] = [
         id: "actions",
         header: "Acciones",
         cell: ({ row }) => {
-            const category = row.original;
-            const hasSubcategories = (category as any).subcategories_count > 0;
+            const subcategory = row.original;
+            const hasSubcategories =
+                (subcategory as any).subcategories_count > 0;
 
             return (
                 <ActionsCell
-                    item={category}
-                    editRoute={route("admin.categories.edit", category.id)}
-                    deleteRoute={route("admin.categories.destroy", category.id)}
+                    item={subcategory}
+                    editRoute={route("admin.categories.edit", subcategory.id)}
+                    deleteRoute={route(
+                        "admin.categories.destroy",
+                        subcategory.id,
+                    )}
                     entityName="categoría"
                     successMessage="Categoría eliminada correctamente"
                     errorMessage="Error al eliminar la categoría"
                     canDelete={!hasSubcategories}
                     deleteDisabledReason={
                         hasSubcategories
-                            ? `No se puede eliminar: tiene ${(category as any).subcategories_count} subcategoría(s)`
+                            ? `No se puede eliminar: tiene ${(subcategory as any).subcategories_count} subcategoría(s)`
                             : undefined
                     }
                 />

@@ -38,6 +38,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             icon: BoxesIcon,
             active: route().current("admin.categories.*"),
         },
+        {
+            key: 4,
+            name: "Subcategorias",
+            url: route("admin.subcategories.index"),
+            icon: BoxesIcon,
+            active: route().current("admin.subactegories.*"),
+        },
     ];
     const user: User = usePage().props.auth.user;
 
