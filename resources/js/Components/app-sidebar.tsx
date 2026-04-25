@@ -1,4 +1,10 @@
-import { ArrowUpCircleIcon, BoxesIcon, PieChart, Users } from "lucide-react";
+import {
+    ArrowUpCircleIcon,
+    BoxesIcon,
+    PieChart,
+    TagIcon,
+    Users,
+} from "lucide-react";
 import * as React from "react";
 
 import { NavMain } from "@/Components/nav-main";
@@ -42,8 +48,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             key: 4,
             name: "Subcategorias",
             url: route("admin.subcategories.index"),
-            icon: BoxesIcon,
-            active: route().current("admin.subactegories.*"),
+            icon: TagIcon,
+            active: route().current("admin.subcategories.*"),
         },
     ];
     const user: User = usePage().props.auth.user;

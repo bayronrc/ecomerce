@@ -21,7 +21,6 @@ interface Props {
     };
 }
 const Index: PageWithLayout<Props> = ({ subcategories: subcategories }) => {
-    console.log(subcategories);
     return (
         <>
             <div className="flex justify-end">
@@ -34,7 +33,7 @@ const Index: PageWithLayout<Props> = ({ subcategories: subcategories }) => {
             <DataTable
                 columns={columns}
                 data={subcategories}
-                routeName="admin.categories.index"
+                routeName="admin.subcategories.index"
             />
         </>
     );
