@@ -58,15 +58,17 @@ export type Category = {
     id: number;
     name: string;
     family_id: number;
+    family: Family;
 };
 
 export type Subcategory = {
     id: number;
     name: string;
     subcategory_id: number;
+    category: Category;
 };
 
 export interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
+    columns: ColumnDef<TData, any>[];
     data: TData[];
 }

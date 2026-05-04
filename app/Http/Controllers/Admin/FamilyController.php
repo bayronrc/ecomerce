@@ -96,7 +96,7 @@ class FamilyController extends Controller
                 'text' => 'No se puede eliminar la familia porque tiene categorias asociadas'
             ]);
 
-            $family->delete();
+            $family->delete($family->id);
 
             session()->flash('swal', [
                 'icon' => 'success',

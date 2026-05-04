@@ -128,7 +128,7 @@ class CategoryController extends Controller
             ]);
         }
 
-        $category->delete();
+        $category->delete($category->id);
 
         session()->flash('swal', [
             'icon' => 'success',

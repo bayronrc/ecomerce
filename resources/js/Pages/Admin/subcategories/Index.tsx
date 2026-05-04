@@ -26,7 +26,7 @@ const Index: PageWithLayout<Props> = ({ subcategories: subcategories }) => {
             <div className="flex justify-end">
                 <Button variant={"default"} asChild>
                     <Link href={route("admin.subcategories.create")}>
-                        Nueva Categoria
+                        Nueva Subcategoria
                     </Link>
                 </Button>
             </div>

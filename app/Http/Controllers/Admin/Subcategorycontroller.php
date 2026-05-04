@@ -15,7 +15,7 @@ class Subcategorycontroller extends Controller
     public function index()
     {
         $subcategory = Subcategory::with('category.family')->paginate(10);
-
+        // return $subcategory;
         return Inertia::render("Admin/subcategories/Index", [
             'subcategories' => $subcategory,
         ]);
@@ -26,7 +26,7 @@ class Subcategorycontroller extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render("Admin/subcategories/Create",);
     }
 
     /**
